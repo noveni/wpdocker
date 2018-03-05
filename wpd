@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+# https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+export DOCKER_STACK_DIR=$DIR/dockerstack
+export ROOT_DIR=$DIR
+
+# OSX
+## Get IP Address on OSX
+IP=$(ipconfig getifaddr en0) #ethernet
+if [ -z $IP ]; then
+    IP=$(ipconfig getifaddr en1) #wifi
+fi
+
+if [ -f .env ]; then
+    source .env
+else
+    echo "You must put an .env file with creds, otherwise it's not gonna work, exiting"
+    exit 1
+fi
+
+DOCKERCOMPOSE="docker-compose --file $DOCKER_STACK_DIR/docker-compose.yml"
+if [ $# -gt 0 ]; then
+    case $1 in
+        hello)
+            echo "Hello Boy"
+        ;;
+        config)
+            echo "Check docker-composer file"
+            $DOCKERCOMPOSE config
+        ;;
+        build)
+            echo "build docker-compose"
+            $DOCKERCOMPOSE build
+        ;;
+        start)
+            echo "Starting docker stack"
+            $DOCKERCOMPOSE up -d
+            sh $ROOT_DIR/wpd ip
+        ;;
+        stop)
+            echo "Stopping docker stack"
+            $DOCKERCOMPOSE down -v
+        ;;
+        bash)
+            echo "Exposing bash of Wordpress container"
+            $DOCKERCOMPOSE exec wordpress bash
+        ;;
+        ip)
+            echo "Front: "
+            echo "http://localhost:${HTTP_PORT}"
+            echo "http://$IP:${HTTP_PORT}"
+            exit 0
+        ;;
+        *)
+            echo "Unknown command"
+            exit 0
+        ;;
+    esac
+else
+    echo "Hum, you didn't provide any command"
+    exit 0
+fi
+
+exit 0
