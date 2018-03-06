@@ -18,6 +18,8 @@ You just need to download the git repo
 ```sh
 git clone git@github.com:noveni/wpdocker.git
 
+cd wpdocker
+
 sh wpd build
 sh wpd start
 ```
