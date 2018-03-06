@@ -41,6 +41,7 @@ if [ $# -gt 0 ]; then
         ;;
         stop)
             echo "Stopping docker stack"
+            bash $ROOT_DIR/wpd dump
             $DOCKERCOMPOSE down -v
         ;;
         bash)
@@ -52,6 +53,14 @@ if [ $# -gt 0 ]; then
             echo "http://localhost:${HTTP_PORT}"
             echo "http://$IP:${HTTP_PORT}"
             exit 0
+        ;;
+        dump)
+            echo "Backuping the db"
+            $DOCKERCOMPOSE exec mysql mysqldump -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > $DOCKER_STACK_DIR/_dockerdb/$MYSQL_DATABASE.sql
+        ;;
+        import)
+            echo "Importing DB"
+            cat $DOCKER_STACK_DIR/_dockerdb/$MYSQL_DATABASE.sql | docker exec -i "${PROJECT_NAME}_mysql_1" mysql -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE
         ;;
         *)
             echo "Unknown command"

@@ -25,6 +25,7 @@ services:
     image: mysql:5.5
     restart: always
     volumes:
+      - ${DOCKER_STACK_DIR}/_dockerdb/:/docker-entrypoint-initdb.d
       - ${DOCKER_STACK_DIR}/mysql:/etc/mysql/conf.d
       - dbdata:/var/lib/mysql
     environment:
