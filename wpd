@@ -57,6 +57,7 @@ if [ $# -gt 0 ]; then
         dump)
             echo "Backuping the db"
             $DOCKERCOMPOSE exec mysql mysqldump -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > $DOCKER_STACK_DIR/_dockerdb/$MYSQL_DATABASE.sql
+            exit 0
         ;;
         import)
             echo "Importing DB"
