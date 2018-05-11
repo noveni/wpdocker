@@ -1,13 +1,24 @@
 # WPDocker
 
+FOR DEVELOPPEMENT ONLY
+
 WPDocker is Docker stack reproducing a local dev environment (LAMP) WordPress website
+
+## WHY ?
+
+'cause some time it's boring to setup a wordpress installation (database, transfert, unzip)
 
 ## What's included
 
-* PHP 7.2
+* PHP 7.1
 * MySQL 5.5
 * WordPress 4.9
 * phpMyAdmin
+
+## Requirements
+
+* Docker
+* Docker-compose
 
 ## Install
 
@@ -20,8 +31,8 @@ git clone git@github.com:noveni/wpdocker.git
 
 cd wpdocker
 
-sh wpd build
-sh wpd start
+bash wpd build
+bash wpd start
 ```
 
 Voilà
@@ -36,23 +47,29 @@ You can change variables to reflect your setup.
 Start environment
 
 ```sh
-sh wpb start (Like docker-compose up -d)
+bash wpb start (Like docker-compose up -d)
 ```
 
 Stop environment (Like docker-compose down -v)
 
 ```sh
-sh wpb stop
+bash wpb stop
 ```
 
 Print IP (Only on Mac OSX)
 
 ```sh
-sh wpb ip
+bash wpb ip
 ```
 
-Attache a bash shell on the wordpress container
+Attach a bash shell on the wordpress container
 
 ```sh
-sh wpb bash
+bash wpb bash
 ```
+
+## TODO
+
+* make executable
+* add help cmd
+* add wp-cli

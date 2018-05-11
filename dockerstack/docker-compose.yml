@@ -3,7 +3,7 @@ version: '3'
 services:
   wordpress:
     container_name: "${PROJECT_NAME}_wp_1"
-    image: wordpress:php7.2
+    build: ${DOCKER_STACK_DIR}/php
     volumes:
       - ${ROOT_DIR}/www/wp:/var/www/html
       - ${DOCKER_STACK_DIR}/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
@@ -11,23 +11,23 @@ services:
       - "${HTTP_PORT}:80"
     environment:
       WORDPRESS_DB_NAME: "${MYSQL_DATABASE}"
-      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: "${MYSQL_USER}"
       WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD}"
     restart: always
     depends_on:
-      - mysql
+      - db
     links:
-      - mysql
+      - db
 
-  mysql:
+  db:
     container_name: "${PROJECT_NAME}_mysql_1"
     image: mysql:5.5
     restart: always
     volumes:
       - ${DOCKER_STACK_DIR}/_dockerdb/:/docker-entrypoint-initdb.d
       - ${DOCKER_STACK_DIR}/mysql:/etc/mysql/conf.d
-      - dbdata:/var/lib/mysql
+      - wpd_dbdata:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_DATABASE: "${MYSQL_DATABASE}"
@@ -45,9 +45,9 @@ services:
     ports:
       - "${PHPMYADMIN_PORT}:80"
     depends_on:
-      - mysql
+      - db
     links:
-      - mysql:db
+      - db
 
   # node:
   #   container_name: "${PROJECT_NAME}_node_1"
@@ -56,4 +56,4 @@ services:
   #   - ./www:/var/www
 
 volumes:
-  dbdata:
+  wpd_dbdata:
