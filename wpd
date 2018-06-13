@@ -23,8 +23,16 @@ fi
 DOCKERCOMPOSE="docker-compose --file $DOCKER_STACK_DIR/docker-compose.yml"
 if [ $# -gt 0 ]; then
     case $1 in
+        install)
+            chmod +x wpd
+            echo
+            echo "Making executable script"
+            # Building Docker stack
+            ./wpd hello
+            ./wpd build
+        ;;
         hello)
-            echo "Hello Boy"
+            echo "Hey, hello"
         ;;
         config)
             echo "Check docker-composer file"
