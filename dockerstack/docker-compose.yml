@@ -3,7 +3,7 @@ version: '3'
 services:
   wordpress:
     container_name: "${PROJECT_NAME}_wp_1"
-    build: noveni/docker-wordpress:7.1
+    image: noveni/docker-wordpress:7.1
     volumes:
       - ${ROOT_DIR}/www/wp:/var/www/html
     ports:
