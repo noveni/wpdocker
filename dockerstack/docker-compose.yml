@@ -48,11 +48,19 @@ services:
     links:
       - db
 
-  # node:
-  #   container_name: "${PROJECT_NAME}_node_1"
-  #   build: ./node
-  #   volumes:
-  #   - ./www:/var/www
+  node:
+    container_name: "${PROJECT_NAME}_node_1"
+    image: node:latest
+    volumes:
+      - ${ROOT_DIR}/www/wp:/var/www
+    working_dir: /var/www/wp-content/themes/$THEME_DIR
+    ports:
+      - ${NODE_PORT}:3000
+    depends_on:
+      - wordpress
+    links:
+      - wordpress
+
 
 volumes:
   wpd_dbdata:

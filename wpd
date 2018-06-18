@@ -56,6 +56,10 @@ if [ $# -gt 0 ]; then
             echo "Exposing bash of Wordpress container"
             $DOCKERCOMPOSE exec wordpress bash
         ;;
+        node)
+            $DOCKERCOMPOSE run --rm node bash
+        ;;
+
         ip)
             echo "Front: "
             echo "http://localhost:${HTTP_PORT}"
